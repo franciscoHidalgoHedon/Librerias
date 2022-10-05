@@ -24,9 +24,17 @@ function validarFormSesion(event) {
   function funcx(){
     if(User.toUpperCase() == UsuarioAdmin && Contraseña == ContraseñaAdmin){
       sessionStorage.setItem("sesion", 1)
-      MenuInventario()
+      Swal.fire({
+        icon: "success",
+        title: "Bienvenido, "+UsuarioAdmin,
+      })
+      MainMenuStart()
     }else{
-      alert("Datos Incorrectos")
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Usuario con contraseña no encontrados"
+      })
     }
   }
   DatosNoVacios()? funcx() : alert("complete todos los datos")
@@ -37,7 +45,7 @@ function validarFormSesion(event) {
 function Main(){
   const sestnull = sessionStorage.getItem("array_articulos") === null || sessionStorage.getItem("array_carrito") === null
   sestnull? saveData() : loadData()
-  MainMenuStart()
+  ValidarSesion()
 }
 
 Main()

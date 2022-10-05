@@ -77,7 +77,6 @@ function pintarProductosCarrito() {
       <button class="btn btn-danger" id="botonBorrarCarrito-${producto.id}"> eliminar </button>
       </ul>
       `
-      let botonComprarr = document.createElement("button")
 
       listaCarrito.append(item)
 
@@ -110,7 +109,7 @@ function agregarAlCarrito(idProducto){
     (producto) => Number(producto.id) === Number(idProducto)
   );
 
-  articulos[indice]["cantidad"] == 0? alert("no hay stock que remover") : articulos[indice]["cantidad"] -= 1 , pintarProductosCompra()
+  articulos[indice]["cantidad"] == 0? Swal.fire({icon: "error", title: "Error", text: "No hay stock que remover"}) : articulos[indice]["cantidad"] -= 1 , pintarProductosCompra()
 
   indiceCarrito == -1?
     carrito.push(
@@ -133,11 +132,21 @@ function Presupuesto(){
     carrito = []
     saveData()
     pintarProductosCarrito()
-    alert("Gracias por comprar en Vajillas.com")
+    Swal.fire({
+      icon: "success",
+      title: "Compra Realizada", 
+      text: "Gracias por comprar con Vajillas.com"
+    })
     saveData()
   }
   function funcif(){
-    confirm("Confirmar la compra?") == true && dof()
+    Swal.fire({
+      icon: "question", 
+      title: "Comprar Carrito?", 
+      showCancelButton: true
+    }).then((result)=>{
+      result.isConfirmed && dof()
+    })
   }
-  carrito["length"] == 0? alert("El Carrito Está Vacío") : funcif()
+  carrito["length"] == 0? Swal.fire({icon: "error", title: "Error", text: "El carrito está vacío"}) : funcif()
 }

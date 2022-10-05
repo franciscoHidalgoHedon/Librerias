@@ -18,7 +18,7 @@ function inicializarMainMenu(){
     botonMenuInventario = document.getElementById("botonMenuInventario")
     botonMenuComprar = document.getElementById("botonMenuComprar")
     botonMenuInventario.onclick = () => {
-        ValidarSesion()
+        MenuInventario()
     }
     botonMenuComprar.onclick = () => {
         MenuComprar()
@@ -51,7 +51,7 @@ function ValidarSesion(){
     <div><h3>(usuario: admin, contraseña: originalidad)</h3></div>
   </div>`
   
-sesion === null? initSec() : MenuInventario()
+sesion === null? initSec() : MainMenuStart()
 
 function initSec(){
   MainContainer.innerHTML = htmlprot

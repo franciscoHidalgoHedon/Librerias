@@ -12,8 +12,8 @@ function inicializarElementos() {
 function inicializarEventos() {
     formulario.onsubmit = (event) => validarFormulario(event);
   }
-  
-  function validarFormulario(event) { 
+
+  function validarFormulario(event) {
     event.preventDefault();
     let idProducto = inputId.value;
     let nombre = inputNombre.value;
@@ -37,30 +37,53 @@ function inicializarEventos() {
       );
       articulos.push(producto);
       formulario.reset();
+      saveData();
       pintarProductos();
     }
-    DatosNoVacios()? newpX() : alert("complete todos los datos")
+    DatosNoVacios()? newpX() : Swal.fire({icon: "error", title: "Error", text: "Complete todos los datos"})
     
     function newpX(){
-      !idExiste? newp() : alert("El id ya existe");
+      !idExiste? newpZ() : Swal.fire({icon: "error", title: "Error", text: "El id ya existe"});
+    }
+
+    function newpZ(){
+      Swal.fire({
+        icon: "question",
+        title: "Crear producto?",
+        showCancelButton: true,
+      }).then((result)=>{
+        result.isConfirmed && newp()
+      })
     }
 }
 
 function eliminarProducto(idProducto) {
+  Swal.fire({
+    icon: "warning",
+    title: "Eliminar Producto?",
+    showCancelButton: true
+  }).then((result)=>{
+    result.isConfirmed && borrp()
+  })
+  function borrp(){
     let columnaBorrar = document.getElementById(`columna-${idProducto}`);
     let indiceBorrar = articulos.findIndex(
       (producto) => Number(producto.id) === Number(idProducto)
     );
     articulos.splice(indiceBorrar, 1);
     columnaBorrar.remove();
+    Swal.fire({
+      icon: "success", title: "Articulo Eliminado"
+    })
     saveData()
+  }
 }
 
 function SumarCantidad(idProducto) {
   let indice = articulos.findIndex(
     (producto) => Number(producto.id) === Number(idProducto)
   );
-  articulos[indice]["cantidad"] += 1
+  articulos[indice]["cantidad"] ++
   pintarProductos()
   saveData()
 }
@@ -69,9 +92,14 @@ function RestarCantidad(idProducto) {
   let indice = articulos.findIndex(
     (producto) => Number(producto.id) === Number(idProducto)
   ); 
-  articulos[indice]["cantidad"] == 0? alert("no hay stock que remover") : articulos[indice]["cantidad"] -= 1
-  pintarProductos()
-  saveData()
+
+  articulos[indice]["cantidad"] == 0? Swal.fire({icon: "error", title: "Error", text: "No hay stock que remover"}) : restc()
+
+  function restc(){
+    articulos[indice]["cantidad"] --
+    pintarProductos()
+    saveData()
+  }  
 }
 
 function pintarProductos() {
